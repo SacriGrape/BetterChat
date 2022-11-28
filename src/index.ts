@@ -7,24 +7,42 @@
  * |____/ \___|\__|\__\___|_|   \_____|_| |_|\__,_|\__|
  * By: RedTNT
  */
-import { Configuration, createRoom, dissolveRoom, findRoomByXuid, getMentions, getTime, joinRoom, parse, rooms, Room, RoomMember, sendActionbar, sendMC, sleepCount, version, leaveRoom } from "./lib/utils";
-import { PlayerJoinEvent, PlayerLeftEvent, PlayerSleepInBedEvent } from "bdsx/event_impl/entityevent";
-import { registerPlaceholder, setPlaceholders } from "@bdsx/bdsx-placeholderapi";
-import { Certificate, ConnectionRequest } from "bdsx/bds/connreq";
-import { LoginPacket, TextPacket } from "bdsx/bds/packets";
-import { SimpleForm, FormButton } from "bdsx/bds/form";
-import { Player, ServerPlayer } from "bdsx/bds/player";
-import { MinecraftPacketIds } from "bdsx/bds/packetids";
-import { NetworkIdentifier } from "bdsx/bds/networkidentifier";
-import { serverProperties } from "bdsx/serverproperties";
-import { ServerInstance } from "bdsx/bds/server";
-import { bedrockServer } from "bdsx/launcher";
-import { CxxString } from "bdsx/nativetype";
-import { command } from "bdsx/command";
-import { CANCEL } from "bdsx/common";
-import { events } from "bdsx/event";
-import { Level } from "bdsx/bds/level";
-import { Color } from "colors";
+import {
+    Configuration,
+    createRoom,
+    dissolveRoom,
+    findRoomByXuid,
+    getMentions,
+    getTime,
+    joinRoom,
+    leaveRoom,
+    parse,
+    Room,
+    RoomMember,
+    rooms,
+    sendActionbar,
+    sendMC,
+    sleepCount,
+    version
+} from "./lib/utils";
+import {PlayerJoinEvent, PlayerLeftEvent, PlayerSleepInBedEvent} from "bdsx/event_impl/entityevent";
+import {registerPlaceholder, setPlaceholders} from "@bdsx/bdsx-placeholderapi";
+import {Certificate, ConnectionRequest} from "bdsx/bds/connreq";
+import {LoginPacket, TextPacket} from "bdsx/bds/packets";
+import {FormButton, SimpleForm} from "bdsx/bds/form";
+import {Player, ServerPlayer} from "bdsx/bds/player";
+import {MinecraftPacketIds} from "bdsx/bds/packetids";
+import {NetworkIdentifier} from "bdsx/bds/networkidentifier";
+import {serverProperties} from "bdsx/serverproperties";
+import {ServerInstance} from "bdsx/bds/server";
+import {bedrockServer} from "bdsx/launcher";
+import {CxxString} from "bdsx/nativetype";
+import {command} from "bdsx/command";
+import {CANCEL} from "bdsx/common";
+import {events} from "bdsx/event";
+import {Level} from "bdsx/bds/level";
+import {Color} from "colors";
+import {CommandPermissionLevel} from "bdsx/bds/command";
 
 const history: { author: string; content: string }[] = [];
 const cooldown = new Map<string, NodeJS.Timeout>();
@@ -42,7 +60,7 @@ events.serverOpen.on(() => {
     console.log('BetterChat BDSX'.cyan, '- by: RedTNT');
 
     // bchat command:
-    const cmd = command.register('bchat', 'BetterChat command');
+    const cmd = command.register('bchat', 'BetterChat command', CommandPermissionLevel.Operator);
 
     // bchat config reload:
     cmd.overload((_param, origin, output) => {
